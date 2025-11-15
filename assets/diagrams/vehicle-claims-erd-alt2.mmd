@@ -1,0 +1,93 @@
+erDiagram
+    POLICY_SNAPSHOT {
+        string PolicyNum PK
+        string CustomerRef
+        string ProductLine
+    }
+    CASE_FILE {
+        int CaseID PK
+        string ClaimFormNumber
+        date ClaimDate
+        decimal ClaimAmount
+        string ClaimStatus
+        string AtFaultParty
+    }
+    ACCIDENT_EVENT {
+        int EventID PK
+        date EventDate
+        time EventTime
+        string StreetName
+        string CrossStreet
+        string WeatherCondition
+        string RoadSurface
+        string LightingCondition
+        boolean VehicleParkedFlag
+    }
+    PERSON_CONTACT {
+        int ContactID PK
+        string FullName
+        date BirthDate
+        string Address
+        string Phone
+        string Email
+    }
+    DRIVER_PROFILE {
+        int DriverID PK
+        string LicenceNumber
+        string LicenceStatus
+        string LicenceType
+        date LicenceIssueDate
+        string RelationshipToInsured
+    }
+    VEHICLE_INVOLVEMENT {
+        int InvolvementID PK
+        string RegistrationPlate
+        string Role
+        string MakeModel
+        string InsurerName
+        int PassengerCount
+    }
+    WITNESS_RECORD {
+        int WitnessID PK
+        string StatementSummary
+        boolean ContactedFlag
+    }
+    EVIDENCE_ITEM {
+        int EvidenceID PK
+        string EvidenceType
+        string Description
+        string StorageLink
+    }
+    LAW_ENFORCEMENT_ACTION {
+        int ActionID PK
+        string ReportNumber
+        boolean ReportedToPoliceFlag
+        string BreathTestResult
+        string DrugTestResult
+    }
+    SERVICE_PROVIDER {
+        int ProviderID PK
+        string ProviderName
+        string WorkshopAddress
+    }
+    QUOTE_PACKAGE {
+        int QuoteID PK
+        int QuoteSequence
+        decimal LaborCost
+        decimal PartsCost
+        decimal TotalCost
+        boolean ApprovedFlag
+    }
+
+    POLICY_SNAPSHOT ||--o{ CASE_FILE : "has"
+    CASE_FILE ||--|| ACCIDENT_EVENT : "covers"
+    ACCIDENT_EVENT ||--o| DRIVER_PROFILE : "has driver"
+    DRIVER_PROFILE ||--|| PERSON_CONTACT : "is contact"
+    ACCIDENT_EVENT ||--o{ VEHICLE_INVOLVEMENT : "includes"
+    ACCIDENT_EVENT ||--o{ WITNESS_RECORD : "witnessed by"
+    WITNESS_RECORD ||--|| PERSON_CONTACT : "contact"
+    ACCIDENT_EVENT ||--o{ EVIDENCE_ITEM : "documents"
+    ACCIDENT_EVENT ||--o| LAW_ENFORCEMENT_ACTION : "reported as"
+    CASE_FILE ||--o{ QUOTE_PACKAGE : "requires"
+    QUOTE_PACKAGE ||--|| SERVICE_PROVIDER : "provided by"
+    SERVICE_PROVIDER ||--|| PERSON_CONTACT : "managed by"

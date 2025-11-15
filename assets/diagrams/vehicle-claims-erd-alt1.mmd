@@ -1,0 +1,93 @@
+erDiagram
+    POLICY {
+        string PolicyNum PK
+        string ProductType
+        date EffectiveDate
+        date ExpiryDate
+    }
+    INSURED_VEHICLE {
+        string VehiclePlate PK
+        string VIN
+        string Make
+        int ModelYear
+    }
+    CLAIM_CASE {
+        int CaseID PK
+        string ClaimFormNumber
+        date ClaimDate
+        decimal ClaimAmount
+        string CaseStatus
+        string FaultAssessment
+    }
+    INCIDENT_REPORT {
+        int IncidentID PK
+        date IncidentDate
+        time IncidentTime
+        string StreetName
+        string CrossStreet
+        string WeatherCode
+        string LightingCode
+        boolean WasParkedFlag
+        string PoliceReportNumber
+    }
+    PERSON {
+        int PersonID PK
+        string FullName
+        date BirthDate
+        string Address
+        string Phone
+        string Email
+    }
+    DRIVER_PARTICIPATION {
+        int ParticipationID PK
+        string LicenceNumber
+        string LicenceStatus
+        string LicenceType
+        date LicenceIssueDate
+        string RelationshipToInsured
+        string BreathTestResult
+        string DrugTestResult
+    }
+    WITNESS_OBSERVATION {
+        int ObservationID PK
+        string Statement
+        boolean ContactedFlag
+    }
+    THIRD_PARTY_ASSET {
+        int ThirdPartyID PK
+        string RegistrationPlate
+        string AssetType
+        string InsurerName
+        int PassengerCount
+    }
+    INCIDENT_THIRD_PARTY {
+        int IncidentID PK
+        int ThirdPartyID PK
+        string FaultRole
+        string DamageNotes
+    }
+    REPAIRER {
+        int RepairerID PK
+        string RepairerName
+        string WorkshopAddress
+        string Phone
+    }
+    QUOTE_REQUEST {
+        int QuoteID PK
+        int QuoteSequence
+        decimal TotalRepairCost
+        date ValidUntil
+        boolean ApprovedFlag
+    }
+
+    POLICY ||--o{ CLAIM_CASE : "covers"
+    INSURED_VEHICLE ||--o{ CLAIM_CASE : "assigned to"
+    CLAIM_CASE ||--|| INCIDENT_REPORT : "documents"
+    INCIDENT_REPORT ||--o{ DRIVER_PARTICIPATION : "includes"
+    PERSON ||--o{ DRIVER_PARTICIPATION : "acts as driver"
+    INCIDENT_REPORT ||--o{ WITNESS_OBSERVATION : "recorded by"
+    PERSON ||--o{ WITNESS_OBSERVATION : "acts as witness"
+    INCIDENT_REPORT ||--o{ INCIDENT_THIRD_PARTY : "involves"
+    THIRD_PARTY_ASSET ||--o{ INCIDENT_THIRD_PARTY : "participates"
+    CLAIM_CASE ||--o{ QUOTE_REQUEST : "requires"
+    REPAIRER ||--o{ QUOTE_REQUEST : "provides"
