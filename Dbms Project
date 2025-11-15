@@ -1,1 +1,255 @@
+# Smart System Diagrams
 
+Each use case below includes a simple block diagram (high-level components) and a flowchart (runtime logic) using Mermaid notation.
+
+## Smart Waste Management System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Bin Fill Sensors] --> E[Edge Controller]
+    E --> W[Wireless Network]
+    W --> C[Cloud Analytics]
+    C --> D[Operations Dashboard]
+    D --> F[Collection Fleet Dispatch]
+    F --> R[Route Status]
+    R --> C
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start]) --> B[Measure fill level]
+    B --> C{Threshold exceeded?}
+    C -- No --> D[Update status log]
+    D --> B
+    C -- Yes --> E[Send alert to cloud]
+    E --> F[Schedule pickup]
+    F --> G[Notify fleet]
+    G --> H[Confirm collection]
+    H --> B
+```
+
+## Smart Water Level Monitoring System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Ultrasonic/Pressure Sensors] --> M[Microcontroller]
+    M --> L[LoRa/GSM Module]
+    L --> P[Cloud Platform]
+    P --> A[Mobile/Web App]
+    A --> U[User Alerts]
+    M --> K[Pump Controller]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start]) --> B[Read water level]
+    B --> C{Below minimum?}
+    C -- Yes --> D[Trigger pump ON]
+    D --> F[Log event and notify]
+    C -- No --> E{Above maximum?}
+    E -- Yes --> G[Trigger pump OFF]
+    G --> F
+    E -- No --> H[Maintain state]
+    F --> B
+    H --> B
+```
+
+## Smart Car Parking System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Entry Sensors & Cameras] --> G[Parking Gateway]
+    G --> D[Local Database]
+    G --> C[Cloud Reservation Server]
+    C --> M[Mobile App]
+    C --> P[Digital Signage]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Vehicle Arrives]) --> B[Detect entry]
+    B --> C{Free slot available?}
+    C -- No --> D[Display lot full]
+    D --> A
+    C -- Yes --> E[Assign slot]
+    E --> F[Guide vehicle via signage/app]
+    F --> G[Confirm occupation]
+    G --> H[Update availability]
+    H --> A
+```
+
+## Smart Classroom Monitoring System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Environment & Occupancy Sensors] --> H[IoT Hub]
+    H --> A[Analytics Engine]
+    A --> D[Teacher/Admin Dashboard]
+    A --> N[Notification Service]
+    H --> C[Camera/Access Control]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start Class]) --> B[Collect sensor data]
+    B --> C[Analyze comfort & attendance]
+    C --> D{Anomaly detected?}
+    D -- No --> E[Maintain log]
+    E --> B
+    D -- Yes --> F[Trigger alert to staff]
+    F --> G[Recommend action (HVAC, security)]
+    G --> H[Execute adjustment]
+    H --> B
+```
+
+## Smart Rail Accident Prevention System
+### Block Diagram
+```mermaid
+flowchart LR
+    T[Track & Train Sensors] --> U[Onboard Controller]
+    U --> V[V2X Communication]
+    V --> C[Control Center]
+    C --> A[Automatic Alert System]
+    U --> B[Braking Interface]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Train in Motion]) --> B[Read track/train data]
+    B --> C{Hazard detected?}
+    C -- No --> D[Continue monitoring]
+    D --> B
+    C -- Yes --> E[Send warning to control center]
+    E --> F[Apply automatic braking]
+    F --> G[Notify nearby trains]
+    G --> H[Log incident]
+    H --> B
+```
+
+## Smart Laboratory Management System
+### Block Diagram
+```mermaid
+flowchart LR
+    I[Inventory RFID/NFC Readers] --> H[Lab Hub]
+    E[Environment Sensors] --> H
+    H --> D[Lab Database]
+    D --> W[Web Dashboard]
+    D --> R[Reporting & Compliance]
+    H --> A[Automation (Locks/HVAC)]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start Day]) --> B[Authenticate personnel]
+    B --> C[Track sample/equipment usage]
+    C --> D[Update inventory records]
+    D --> E{Levels below reorder point?}
+    E -- Yes --> F[Create purchase request]
+    F --> H[Notify manager]
+    E -- No --> G[Continue monitoring]
+    H --> B
+    G --> B
+```
+
+## Home Automation System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Sensors & Actuators] --> H[Home Hub]
+    H --> C[Cloud Services]
+    C --> M[Mobile App]
+    C --> V[Voice Assistant]
+    H --> L[Local Automation Rules]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Event Detected]) --> B[Evaluate automation rules]
+    B --> C{Condition met?}
+    C -- No --> D[Ignore/log event]
+    D --> A
+    C -- Yes --> E[Execute device command]
+    E --> F[Confirm device state]
+    F --> G[Notify user if needed]
+    G --> A
+```
+
+## Industrial Hazard Prevention System
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Gas/Vibration/Heat Sensors] --> G[Edge Gateway]
+    G --> A[AI Analytics]
+    A --> C[Control Room Dashboard]
+    A --> N[Notification & Siren]
+    G --> P[Process Control Unit]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start Monitoring]) --> B[Sample hazard sensors]
+    B --> C[Run analytics]
+    C --> D{Risk level high?}
+    D -- No --> E[Store trend data]
+    E --> B
+    D -- Yes --> F[Trigger alarms]
+    F --> G[Execute safety shutdown]
+    G --> H[Send incident report]
+    H --> B
+```
+
+## Obstacle Avoidance Robot
+### Block Diagram
+```mermaid
+flowchart LR
+    S[Ultrasonic/IR Sensors] --> C[Robot Controller]
+    C --> P[Path Planning Module]
+    P --> M[Motor Driver]
+    M --> W[Wheel Actuators]
+    C --> T[Telemetry Link]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start Navigation]) --> B[Read distance sensors]
+    B --> C{Obstacle ahead?}
+    C -- No --> D[Move forward]
+    D --> B
+    C -- Yes --> E[Stop motors]
+    E --> F[Compute alternate path]
+    F --> G[Adjust heading]
+    G --> D
+```
+
+## Solar Tracking System
+### Block Diagram
+```mermaid
+flowchart LR
+    L[Light Sensors (LDR)] --> C[Microcontroller]
+    C --> A[Actuator Driver]
+    A --> P[Dual-Axis Motor]
+    P --> S[Solar Panel Mount]
+    C --> M[Monitoring Interface]
+```
+
+### Flowchart
+```mermaid
+flowchart TD
+    A([Start]) --> B[Read sensor pairs]
+    B --> C[Compare east vs west light]
+    C --> D{Difference > tolerance?}
+    D -- No --> E[Hold position]
+    E --> B
+    D -- Yes --> F[Rotate toward brighter side]
+    F --> G[Update position log]
+    G --> B
+```
