@@ -1,0 +1,133 @@
+erDiagram
+    POLICY ||--o{ INSURED_VEHICLE : covers
+    INSURED_VEHICLE ||--o{ CLAIM : referenced_by
+    CLAIM ||--|| ACCIDENT : documents
+    CLAIM ||--o{ QUOTE : requires
+    CLAIM ||--o{ ADJUSTMENT_NOTE : logs
+    ACCIDENT ||--o{ ACCIDENT_DRIVER : involves
+    DRIVER ||--o{ ACCIDENT_DRIVER : participates
+    ACCIDENT ||--o{ DRIVER_TEST : recorded_for
+    ACCIDENT ||--o{ ACCIDENT_OTHER_VEHICLE : features
+    OTHER_VEHICLE ||--o{ ACCIDENT_OTHER_VEHICLE : participates
+    ACCIDENT ||--o{ ACCIDENT_WITNESS : observed_by
+    WITNESS ||--o{ ACCIDENT_WITNESS : testifies
+
+    POLICY {
+        string PolicyNumber PK
+        string ExternalCustomerId
+        string ProductType
+        string Status
+    }
+
+    INSURED_VEHICLE {
+        int VehicleID PK
+        string RegistrationPlate
+        string VINHash
+        string MakeModel
+        int Year
+        string PolicyNumber FK
+    }
+
+    CLAIM {
+        int ClaimID PK
+        string ClaimNumber
+        date ClaimDate
+        decimal ClaimAmount
+        string ClaimDescription
+        boolean AtFaultPartyFlag
+        string PolicyNumber FK
+        int VehicleID FK
+        int AccidentID FK
+    }
+
+    ACCIDENT {
+        int AccidentID PK
+        date AccidentDate
+        time AccidentTime
+        string StreetName
+        string CrossStreet
+        boolean WetRoadFlag
+        boolean HeadlightsOnFlag
+        boolean ParkedFlag
+        boolean ReportedToPoliceFlag
+        string Description
+    }
+
+    ACCIDENT_DRIVER {
+        int AccidentID FK
+        int DriverID FK
+        string Role
+        boolean PresentFlag
+    }
+
+    DRIVER {
+        int DriverID PK
+        string FullName
+        date BirthDate
+        string Address
+        string PhoneNumber
+        string RelationshipToInsured
+        string LicenceNumber
+        string LicenceStatus
+        string LicenceType
+        date LicenceIssueDate
+    }
+
+    DRIVER_TEST {
+        int TestID PK
+        int AccidentID FK
+        string TestType
+        boolean AdministeredFlag
+        string Result
+        string PerformedBy
+        string Notes
+    }
+
+    OTHER_VEHICLE {
+        int OtherVehicleID PK
+        string RegistrationPlate
+        string MakeModel
+        string InsurerName
+    }
+
+    ACCIDENT_OTHER_VEHICLE {
+        int AccidentID FK
+        int OtherVehicleID FK
+        int PassengerCount
+        string DamageSummary
+    }
+
+    WITNESS {
+        int WitnessID PK
+        string FullName
+        string Address
+        string PhoneNumber
+        string PreferredContactMethod
+    }
+
+    ACCIDENT_WITNESS {
+        int AccidentID FK
+        int WitnessID FK
+        string Statement
+        boolean ContactedFlag
+    }
+
+    QUOTE {
+        int QuoteID PK
+        int ClaimID FK
+        int QuoteSequence
+        string RepairerName
+        string RepairerAddress
+        decimal TotalRepairCost
+        string Currency
+        date QuoteDate
+    }
+
+    ADJUSTMENT_NOTE {
+        int NoteID PK
+        int ClaimID FK
+        string CreatedBy
+        datetime CreatedOn
+        string NoteType
+        string NoteText
+    }
