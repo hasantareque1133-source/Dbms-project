@@ -1,6 +1,8 @@
 # Vehicle Claims Management System Database Design
 
-**Premier University, Department of CSE — Spring 2025 (CSE 2221 / CO3 / 10 Marks)**
+**Premier University — Department of CSE**  
+**Semester:** Spring 2025 (4th)  |  **Course:** CSE 2221 — Database Management Systems  |  **Course Outcome:** CO3  
+**Assignment Weight:** 10 Marks  |  **Case Study:** Red Insurance — Vehicle Claim Form
 
 ---
 
@@ -41,28 +43,31 @@ Lookup tables (e.g., `LicenceStatus`, `FaultParty`, `QuoteStatus`) can be added 
 
 ---
 
-## 3. Conceptual ERD Narrative (Crow’s Foot Notation)
-*(Conceptual model only — primary keys shown, no foreign keys drawn in accordance with instructions.)*
+## 3. Conceptual ERD (Crow’s Foot Notation)
+*(Conceptual model only — primary keys shown, no foreign keys drawn per instructions.)*
 
-1. **PolicyReference (1) ──< (M) Claim**  
+![Crow’s Foot ERD for Vehicle Claims](assets/diagrams/vehicle-claims-erd.png)
+*Figure 1: Entity-relationship diagram generated from the conceptual schema.*
+
+1. **PolicyReference (1) --< (M) Claim**  
    Each claim references exactly one existing policy record; policies can own many claims.
 
-2. **Claim (1) ──1 (1) Accident**  
+2. **Claim (1) --1 (1) Accident**  
    One accident generates one claim and vice versa; enforcing synchronized lifecycle.
 
-3. **Accident (0..1) ──1 Driver**  
+3. **Accident (0..1) --1 Driver**  
    If the insured vehicle was driven, exactly one driver record attaches; if parked, no driver is linked.
 
-4. **Accident (1) ──< (M) DriverTest**  
+4. **Accident (1) --< (M) DriverTest**  
    Multiple breath/drug tests may be logged per accident (e.g., initial + confirmatory).
 
-5. **Accident (1) ──< (M) AccidentWitness >──(M) Witness**  
+5. **Accident (1) --< (M) AccidentWitness >--(M) Witness**  
    Many-to-many via associative entity; witnesses can observe multiple accidents or none.
 
-6. **Accident (1) ──< (M) AccidentOtherVehicle >──(M) OtherVehicle**  
+6. **Accident (1) --< (M) AccidentOtherVehicle >--(M) OtherVehicle**  
    Supports collisions with several vehicles/objects and re-use of recurring offenders.
 
-7. **Claim (1) ──< (M) Quote**  
+7. **Claim (1) --< (M) Quote**  
    At least three quotes per claim; additional quotes allowed for complex damages.
 
 Mandatory vs. optional participation is illustrated by crow’s foot modality (single line for mandatory, circle for optional) in the actual ERD diagram to be printed from modeling software.
@@ -108,7 +113,7 @@ Mandatory vs. optional participation is illustrated by crow’s foot modality (s
 
 **Business rules** embedded via constraints/triggers:
 - `Claim` must have exactly one `Accident` (`AccidentID` unique per claim and vice versa).
-- `Quote` table enforces a CHECK that `QuoteSequence` ∈ {1,2,3,…} and a trigger to ensure at least three rows per ClaimID.
+- `Quote` table enforces a CHECK that `QuoteSequence` is in {1,2,3,…} and a trigger to ensure at least three rows per ClaimID.
 - `DriverID` in `Accident` is nullable but, when present, must reference an existing Driver with valid licence metadata.
 
 ---
@@ -136,8 +141,8 @@ Mandatory vs. optional participation is illustrated by crow’s foot modality (s
 ---
 
 ## 8. Conclusion & Next Steps
-- The proposed relational design satisfies the assignment objectives: requirements analysis, conceptual ERD, normalization to 3NF, logical schema, and reflective analysis.
-- Recommended follow-ups: generate the crow’s foot ERD diagram in a modeling tool (draw.io, ERDPlus), define enumerated lookup tables, and draft sample SQL DDL plus test data to validate integrity constraints before deployment.
+- The proposed relational design satisfies all assignment objectives: stakeholder analysis, conceptual ERD (Figure 1), normalization through 3NF, relational schema conversion, and reflective design discussion.
+- Recommended follow-ups: enrich the model with lookup/reference tables, derive physical DDL plus integrity constraints, and seed sample data to test workflow scenarios before deployment.
 
 *Prepared by: [Your Name], Database Management Systems (CSE 2221) — Spring 2025.*
 

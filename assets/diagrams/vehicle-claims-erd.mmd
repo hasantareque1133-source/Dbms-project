@@ -1,0 +1,89 @@
+erDiagram
+    POLICY_REFERENCE {
+        string PolicyNum PK
+        string InsuredVehiclePlate
+    }
+    CLAIM {
+        int ClaimID PK
+        string ClaimFormNumber
+        date ClaimDate
+        decimal ClaimAmount
+        string AccidentDescription
+        string FaultParty
+        string Status
+    }
+    ACCIDENT {
+        int AccidentID PK
+        date AccidentDate
+        time AccidentTime
+        string StreetName
+        string CrossStreet
+        boolean VehicleWasParked
+        boolean WetRoad
+        boolean HeadlightsOn
+        boolean ReportedToPolice
+        string AtFaultIndicator
+    }
+    DRIVER {
+        int DriverID PK
+        string FullName
+        date BirthDate
+        string Address
+        string Phone
+        string RelationshipToInsured
+        string LicenceNumber
+        string LicenceStatus
+        string LicenceType
+        date LicenceIssueDate
+    }
+    DRIVER_TEST {
+        int TestID PK
+        string TestType
+        boolean WasPerformed
+        string Result
+        string ConductedBy
+    }
+    QUOTE {
+        int QuoteID PK
+        int QuoteSequence
+        string RepairerName
+        string RepairerAddress
+        decimal TotalRepairCost
+        string QuoteStatus
+    }
+    WITNESS {
+        int WitnessID PK
+        string FullName
+        string Address
+        string Phone
+    }
+    ACCIDENT_WITNESS {
+        int AccidentID PK
+        int WitnessID PK
+        string StatementSummary
+        boolean Contacted
+    }
+    OTHER_VEHICLE {
+        int OtherVehicleID PK
+        string RegistrationPlate
+        string MakeModel
+        string VehicleType
+        string Insurer
+        int PassengerCount
+    }
+    ACCIDENT_OTHER_VEHICLE {
+        int AccidentID PK
+        int OtherVehicleID PK
+        string ImpactRole
+        string DamageSummary
+    }
+
+    POLICY_REFERENCE ||--o{ CLAIM : "covers"
+    CLAIM ||--|| ACCIDENT : "documents"
+    ACCIDENT ||--o| DRIVER : "involves"
+    ACCIDENT ||--o{ DRIVER_TEST : "triggers"
+    CLAIM ||--o{ QUOTE : "requires"
+    ACCIDENT ||--o{ ACCIDENT_WITNESS : "documents"
+    WITNESS ||--o{ ACCIDENT_WITNESS : "observes"
+    ACCIDENT ||--o{ ACCIDENT_OTHER_VEHICLE : "impacts"
+    OTHER_VEHICLE ||--o{ ACCIDENT_OTHER_VEHICLE : "participates"
